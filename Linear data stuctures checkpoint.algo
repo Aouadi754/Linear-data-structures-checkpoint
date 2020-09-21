@@ -1,0 +1,170 @@
+//PROBLEM 1 SOLUTION 1
+ALGORITHM distinct_sum
+VAR
+   set1,set2 : ARRAY_OF INTEGER[50]; 
+   i,j,sum_distinct,nb1,nb2 : INTEGER; 
+BEGIN
+//Initializing sum_distinct to 0
+sum_distinct:=0;
+// insert from user an array set1 of 11 elements
+FOR i FROM 0 TO 10 DO
+       Read(set1[i]);
+   END_FOR
+// insert from user an array set2 of 8 elements
+FOR j FROM 0 TO 7 DO
+       Read(set2[i]);
+   END_FOR
+//calculating the sum of distinct elements in set1 and set2
+//comparing each element of set1 with set2
+FOR i FROM 0 TO set1.length-1 DO
+ nb1:=0;
+  FOR j FROM 0 TO set2.length-1 DO
+     IF (set1[i] <> set2[j]) THEN
+     nb1:=nb1+1;
+       END_IF  
+   END_FOR
+   IF (nb1=set2.length) THEN
+           sum_distinct:=sum_distinct+set1[i];
+       END_IF      
+END_FOR
+//comparing each element of set2 with set1
+FOR i FROM 0 TO set2.length-1 DO
+ nb2:=0;
+  FOR j FROM 0 TO set1.length-1 DO
+     IF (set1[j] <> set2[i]) THEN
+     nb2:=nb2+1;
+       END_IF  
+   END_FOR
+   IF (nb2=set1.length) THEN
+           sum_distinct:=sum_distinct+set2[j];
+       END_IF      
+END_FOR
+//returning results
+write(sum_distinct)
+END
+
+
+/////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////
+
+
+//PROBLEM 2 SOLUTION 1
+ALGORITHM overlapping_sum
+VAR
+   set1,set2 : ARRAY_OF INTEGER[50]; 
+   i,j,sum: INTEGER;
+BEGIN
+//Initializing the sum to 0
+sum:=0;
+// insert from user an array set1 of 11 elements
+FOR i FROM 0 TO 10 DO
+       Read(set1[i]);
+   END_FOR
+// insert from user an array set2 of 8 elements
+ FOR j FROM 0 TO 7 DO
+       Read(set2[i]);
+   END_FOR
+
+FOR i FROM 0 TO set1.length-1 DO
+
+  FOR j FROM 0 TO set2.length-1 DO
+     IF (set1[i] = set2[j]) THEN
+     sum=sum+set1[i]*2;
+       END_IF 
+  END_FOR  
+END_FOR
+write(sum);
+END
+
+
+/////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////
+
+
+//PROBLEM 1 SOLUTION 2
+ALGORITHM distinct_sum
+VAR
+   set1,set2,set3 : ARRAY_OF INTEGER[100]; 
+   i,j,sum_distinct,L,t : INTEGER; 
+   htab : HASH_TABLE<INTEGER,INTEGER>;
+BEGIN
+ Read(set1);
+ Read(set2);
+
+ sum_distinct:=0;
+ L:=set1.length+set2.length;
+//Regrouping set1 and set2 elements in one array set3
+ FOR i FROM 0 TO set1.length-1 DO
+ set3[i]=set1[i];
+ END_FOR
+
+ t:=0;
+
+FOR j FROM set1.length TO L-1 DO
+set3[j]=set2[t];
+t:=t+1;
+END_FOR
+//we browse set3 to define the count of each element
+FOR i FROM 0 TO L-1 DO
+ IF (htab.lookup(set3[i]=TRUE) THEN
+ count := htab.get(set3[i]);
+ htab.insert(set3[i],count+1);
+ ELSE
+ htab.insert(set3[i],1);
+ END_IF 
+END_FOR
+//calculating the sum of distinct elements in set1 and set2
+ FOR i FROM 0 TO  L-1 STEP 1  DO
+       IF (htab.get(set3[i]) = 1) THEN
+           sum_distinct := sum_distinct + set3[i];
+           
+       END_IF
+   END_FOR
+   write(sum_distinct);
+END
+
+
+/////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////
+
+
+//PROBLEM 2 SOLUTION 2
+ALGORITHM overlapping_sum
+VAR
+   set1,set2,set3 : ARRAY_OF INTEGER[100]; 
+   i,j,sum,L,t : INTEGER; 
+   htab : HASH_TABLE<INTEGER,INTEGER>;
+BEGIN
+ Read(set1);
+ Read(set2);
+
+ sum:=0;
+ L:=set1.length+set2.length;
+//Regrouping set1 and set2 elements in one array set3
+ FOR i FROM 0 TO set1.length-1 DO
+ set3[i]=set1[i];
+ END_FOR
+
+ t:=0;
+
+FOR j FROM set1.length TO L-1 DO
+set3[j]=set2[t];
+t:=t+1;
+END_FOR
+//we browse set3 to define the count of each element
+FOR i FROM 0 TO L-1 DO
+ IF (htab.lookup(set3[i]=TRUE) THEN
+ count := htab.get(set3[i]);
+ htab.insert(set3[i],count+1);
+ ELSE
+ htab.insert(set3[i],1);
+ END_IF 
+END_FOR
+// calculating the sum of overlapping elements in set1 and set 2
+ FOR i FROM 0 TO  L-1 STEP 1  DO
+       IF (htab.get(set3[i]) = 2) THEN
+           sum := sum + set3[i]*2;   
+       END_IF
+   END_FOR
+   write(sum);
+END
